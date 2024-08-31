@@ -3,17 +3,22 @@ from pprint import pprint
 import datetime
 from dateutil import parser
 import math
+import Constants
+
 
 
 FORECAST_TIME=100;
 SITE=5502 # To be changed to somethign from user.
 SL_FETCH_URL='https://transport.integration.sl.se/v1/sites/'+str(SITE)+'/departures?forecast='+str(FORECAST_TIME)
+EXAMPLE_PLANNER_URL='https://journeyplanner.integration.sl.se/v1/TravelplannerV3_1/tti?key='+Constants.APIKEY
 
-
+def doAPICall(URL): 
+    response = requests.get(URL)
+    data=response.json()
+    return data
 
 def findInfoForLocation(location): 
-    response = requests.get(SL_FETCH_URL)
-    data=response.json()
+    data=doAPICall(SL_FETCH_URL)
     
     #Handle departures from ""
     for i in range(len(data['departures'])):
@@ -31,11 +36,13 @@ def findInfoForLocation(location):
             print("Bus", route, " towards", direction, "in", minutesLeft," minutes")
         
     
+def findConnectionFromLocation(location):
+    data = doAPICall(EXAMPLE_PLANNER_URL)
+    print(data);
+
 def main():
-    findInfoForLocation(1)
-    
-    
-    
+    #findInfoForLocation(1)
+    findConnectionFromLocation(1)
 main()
 
 
@@ -45,3 +52,8 @@ Todo :
 1) Use SL data to find a route between A to B with least wait times outside in cold and shortest times.
 
 '''
+
+
+    
+
+
