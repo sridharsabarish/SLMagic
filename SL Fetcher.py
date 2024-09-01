@@ -10,12 +10,13 @@ import Constants
 FORECAST_TIME=100;
 SITE=5502 # To be changed to somethign from user.
 SL_FETCH_URL='https://transport.integration.sl.se/v1/sites/'+str(SITE)+'/departures?forecast='+str(FORECAST_TIME)
-EXAMPLE_PLANNER_URL='https://journeyplanner.integration.sl.se/v1/TravelplannerV3_1/tti?key='+Constants.APIKEY
+EXAMPLE_PLANNER_URL='https://journeyplanner.integration.sl.se/v1/TravelplannerV3_1/journeydetail.&lt;FORMAT&gt;?key=&lt;'+str(Constants.APIKEY)+'&gt;&amp;id=1|3598|0|74|13062017'
+STOP_SEARCH_URL='https://journeyplanner.integration.sl.se/v1/typeahead.json?searchstring=Edsberg&stationsonly=true&maxresults=5&key='+Constants.APIKEY
 
 def doAPICall(URL): 
     response = requests.get(URL)
-    data=response.json()
-    return data
+    print(response.text)
+   
 
 def findInfoForLocation(location): 
     data=doAPICall(SL_FETCH_URL)
@@ -37,9 +38,7 @@ def findInfoForLocation(location):
         
     
 def findConnectionFromLocation(location):
-    data = doAPICall(EXAMPLE_PLANNER_URL)
-    print(data);
-
+    doAPICall(STOP_SEARCH_URL)
 def main():
     #findInfoForLocation(1)
     findConnectionFromLocation(1)
