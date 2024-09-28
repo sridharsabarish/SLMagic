@@ -6,6 +6,7 @@ import math
 import Constants
 
 
+VERBOSE=0
 
 FORECAST_TIME=100;
 SITE=5502 # To be changed to somethign from user.
@@ -15,12 +16,12 @@ STOP_SEARCH_URL='https://journeyplanner.integration.sl.se/v1/typeahead.json?sear
 
 def doAPICall(URL): 
     response = requests.get(URL)
-    print(response.text)
-   
+    return response.json()
 
 def findInfoForLocation(location): 
     data=doAPICall(SL_FETCH_URL)
-    
+    if VERBOSE:
+        print(data['departures'])
     #Handle departures from ""
     for i in range(len(data['departures'])):
         times = data['departures'][i]['expected']
@@ -32,16 +33,15 @@ def findInfoForLocation(location):
         direction=data['departures'][i]['direction']
         route=(data['departures'][i]['line']['designation'])
         
-        if minutesLeft >3 and minutesLeft <100:
-        
+        if minutesLeft >1 and minutesLeft <100:
             print("Bus", route, " towards", direction, "in", minutesLeft," minutes")
         
     
 def findConnectionFromLocation(location):
     doAPICall(STOP_SEARCH_URL)
 def main():
-    #findInfoForLocation(1)
-    findConnectionFromLocation(1)
+    findInfoForLocation(1)
+    #findConnectionFromLocation(1)
 main()
 
 

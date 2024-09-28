@@ -4,3 +4,7 @@ Constants.py
 # Added by cargo
 
 /target
+
+*
+.pyc
+__pycache__/Constants.cpython-37.pyc
