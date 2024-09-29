@@ -14,8 +14,13 @@
 
 mod sl;
 use core::panic;
+use std::thread::current;
+
+use reqwest::header::Keys;
 
 use crate::sl::Todo;
+use crate::sl::Departure;
+use chrono::prelude::*;
 
 #[tokio::main]
 
@@ -40,7 +45,31 @@ async fn main() -> Result<(),reqwest::Error> {
         }
     };
     
-    println!("{:#?}",todos);
+    //println!("{:#?}",todos);
+
+    #[derive(Debug)]
+    struct info{
+        id :i64,
+        direction: String,
+        display: String
+    };
+
+    let local_datetime: DateTime<Local> = Local::now();
+    println!(" Current Time in {} is {}", "Stockholm",local_datetime);
+
+    let mut out :Vec::<info>=Vec::new();
+    for dep in todos.departures {
+        //println!("{:#?}",dep);
+        out.push(info{id: dep.line.id, direction: dep.direction, display: dep.display});
+    
+    }
+
+    for i in out {
+        println!("{} : {} : {}",i.display,i.direction,i.id);
+    }
+
+
+
     Ok(())
 
 }
@@ -52,7 +81,7 @@ async fn main() -> Result<(),reqwest::Error> {
 async fn incorrectURL() {
 
    let resp = reqwest::Client::new()
-    .get("https://verksamhet.integration.sl.se/v1/sites/5502/departures?forecast=100")
+    .get("https://noreply.integration.sl.se/v1/sites/5502/departures?forecast=100")
     .send()
     .await;
 

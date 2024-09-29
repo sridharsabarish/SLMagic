@@ -2,69 +2,69 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize,Debug)]
 pub struct Todo {
-    departures: Vec<Departure>,
+    pub departures: Vec<Departure>,
 
-    stop_deviations: Vec<Option<serde_json::Value>>,
+    pub stop_deviations: Vec<Option<serde_json::Value>>,
 }
 
 #[derive(Serialize, Deserialize,Debug)]
 pub struct Departure {
-    destination: String,
+    pub destination: String,
 
-    direction_code: i64,
+    pub direction_code: i64,
 
-    direction: String,
+    pub direction: String,
 
-    state: String,
+    pub state: String,
 
-    display: String,
+    pub display: String,
 
-    scheduled: String,
+    pub scheduled: String,
 
-    expected: String,
+    pub expected: String,
 
-    journey: Journey,
+    pub journey: Journey,
 
-    stop_area: StopArea,
+    pub stop_area: StopArea,
 
-    stop_point: StopPoint,
+    pub stop_point: StopPoint,
 
-    line: Line,
+    pub line: Line,
 
-    deviations: Vec<Option<serde_json::Value>>,
+    pub deviations: Vec<Option<serde_json::Value>>,
 }
 
 #[derive(Serialize, Deserialize,Debug)]
 pub struct Journey {
-    id: i64,
+    pub id: i64,
 
-    state: String,
+    pub state: String,
 
-    prediction_state: Option<String>,
+    pub prediction_state: Option<String>,
 }
 
 #[derive(Serialize, Deserialize,Debug)]
 pub struct Line {
-    id: i64,
+    pub id: i64,
 
-    designation: String,
+    pub designation: String,
 
-    transport_mode: String,
+    pub transport_mode: String,
 }
 
 #[derive(Serialize, Deserialize,Debug)]
 pub struct StopArea {
-    id: i64,
+    pub id: i64,
 
-    name: String,
+    pub name: String,
 
     #[serde(rename = "type")]
-    stop_area_type: String,
+    pub stop_area_type: String,
 }
 
 #[derive(Serialize, Deserialize,Debug)]
 pub struct StopPoint {
-    id: i64,
+    pub id: i64,
 
-    name: String,
+    pub name: String,
 }
