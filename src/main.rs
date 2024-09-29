@@ -13,6 +13,8 @@
 // }
 
 mod sl;
+use core::panic;
+
 use crate::sl::Todo;
 
 #[tokio::main]
@@ -43,6 +45,38 @@ async fn main() -> Result<(),reqwest::Error> {
 
 }
 
+
+
+#[tokio::test]
+#[should_panic]
+async fn incorrectURL() {
+
+   let resp = reqwest::Client::new()
+    .get("https://verksamhet.integration.sl.se/v1/sites/5502/departures?forecast=100")
+    .send()
+    .await;
+
+    match resp {
+        Ok(resp) => assert!(true),
+        Err(err) => panic!("Error making request: {}", err),
+    }
+    
+}
+
+#[tokio::test]
+async fn validURL() {
+
+    let resp = reqwest::Client::new()
+     .get("https://transport.integration.sl.se/v1/sites/5502/departures?forecast=100")
+     .send()
+     .await;
+ 
+     match resp {
+         Ok(resp) => assert!(true),
+         Err(err) => panic!("Error making request: {}", err),
+     }
+     
+ }
 
 /*
 
